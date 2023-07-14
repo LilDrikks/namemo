@@ -1,7 +1,6 @@
 export const loadState = ()=> {
   try {
     const data = localStorage.getItem('listas');
-    console.log(data);
     if(data === null){
       return undefined;
     }
@@ -16,6 +15,15 @@ export const setState = (newState:any) => {
     localStorage.setItem('listas', JSON.stringify(newState));
   } catch (error) {
     return console.log('falha ao salvar Storage')
+  }
+}
+
+export const updateState = (index: number) => {
+  try {
+    console.log(loadState()[index])
+    return loadState()
+  } catch (error) {
+    
   }
 }
 

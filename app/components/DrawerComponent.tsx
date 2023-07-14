@@ -18,8 +18,9 @@ import {
 import { useSelector } from "react-redux";
 
 import { useRef } from "react";
-import NovaListaForm from "./NovaListaForm";
+import NovaListaForm from "./AddNovaListaComponent";
 import Link from "next/link";
+import { ModalComponent } from "./ModalComponent";
 
 export function DrawerExample() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,7 +29,12 @@ export function DrawerExample() {
 
   return (
     <>
-      <Button className="bg-white text-azul hover:bg-black hover:text-white" ref={btnRef} colorScheme="teal" onClick={onOpen}>
+      <Button
+        className="bg-white text-azul hover:bg-black hover:text-white"
+        ref={btnRef}
+        colorScheme="teal"
+        onClick={onOpen}
+      >
         Menu
       </Button>
       <Drawer
@@ -40,7 +46,7 @@ export function DrawerExample() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader >Menu</DrawerHeader>
+          <DrawerHeader>Menu</DrawerHeader>
 
           <DrawerBody>
             <Tabs variant="enclosed">
@@ -51,10 +57,14 @@ export function DrawerExample() {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  {data.map((item: any) => (
-                    <div className="flex">
-                      <Link href={`/${item}`} className="text-lg" key={item} onClick={onClose}>
-                        {item}
+                  {data.map((item: any, index: number) => (
+                    <div className="flex" key={index}>
+                      <Link
+                        href={`/${item}`}
+                        className="text-lg"
+                        onClick={onClose}
+                      >
+                        {index} - {item}
                       </Link>
                     </div>
                   ))}
@@ -63,14 +73,29 @@ export function DrawerExample() {
                   <NovaListaForm />
                 </TabPanel>
                 <TabPanel>
-                  <p>two!</p>
+                  {data.map((item: any, index: number) => (
+                    <div className="flex h-full justify-between" key={index}>
+                      <div>
+                        <Link
+                          href={`/${item}`}
+                          className="text-lg"
+                          onClick={onClose}
+                        >
+                          {index} - {item}
+                        </Link>
+                      </div>
+                      <div>
+                      <ModalComponent setIndex={index} />
+                      </div>
+                    </div>
+                  ))}
                 </TabPanel>
               </TabPanels>
             </Tabs>
           </DrawerBody>
 
           <DrawerFooter>
-            <Button  variant="outline" mr={3} onClick={onClose}>
+            <Button variant="outline" mr={3} onClick={onClose}>
               Fechar
             </Button>
           </DrawerFooter>
