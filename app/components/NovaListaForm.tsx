@@ -8,12 +8,22 @@ function NovaListaForm() {
     const dispatch = useDispatch()
     const router = useRouter()
     const [titulo, setTitulo] = useState('')
+    
+    const error = 'Informe o título da nova lista!';
 
+    const handleClearFocus = (e: any) => {
+        if(titulo === error){
+            setTitulo('')
+        }
+    }
     const handleChange = (e: any) => {
         setTitulo(e.target.value)
-        console.log(titulo)
     }
     const handleAddLista = () => {
+        if(titulo === '' || titulo === error){
+            setTitulo('Informe o título da nova lista!')
+            return;
+        }
         dispatch(addLista(titulo))
         const tituloLink = titulo.replaceAll(' ', '-')
         setTitulo('')
@@ -22,7 +32,7 @@ function NovaListaForm() {
     return (
         <FormControl>
             <FormLabel>Título</FormLabel>
-            <Input onChange={handleChange} value={titulo} />
+            <Input onChange={handleChange} onFocus={handleClearFocus} value={titulo} />
             <Button className='mt-2' onClick={handleAddLista}>Adicionar</Button>
         </FormControl>
     )

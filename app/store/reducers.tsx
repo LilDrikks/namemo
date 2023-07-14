@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { setState } from '../localstorage/localStorage';
 
 
 
@@ -9,11 +10,8 @@ const Listas = createSlice({
   reducers: {
     addLista(state: any, action):any {
       const newState = [...state, action.payload];
-      localStorage.setItem('listas', JSON.stringify(newState));
+      setState(newState)
       return state = newState;
-    },
-    getlocal(state: any, action): any{
-          
     },
   },
 });
@@ -23,4 +21,4 @@ export const rootReducer = {
   listas: Listas.reducer,
 };
 
-export const { addLista, getlocal } = Listas.actions;
+export const { addLista } = Listas.actions;
