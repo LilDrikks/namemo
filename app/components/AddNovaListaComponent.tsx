@@ -4,7 +4,11 @@ import React, { useState } from 'react'
 import { addLista } from '../store/reducers';
 import { useRouter } from 'next/navigation';
 
-function NovaListaForm() {
+interface NovaListaProps {
+    onCloseDrawer: Function;
+}
+
+const NovaListaForm: React.FC<NovaListaProps> = ({onCloseDrawer}) => {
     const dispatch = useDispatch()
     const router = useRouter()
     const [titulo, setTitulo] = useState('')
@@ -27,6 +31,7 @@ function NovaListaForm() {
         dispatch(addLista(titulo))
         const tituloLink = titulo.replaceAll(' ', '-')
         setTitulo('')
+        onCloseDrawer()
         router.push(`/${tituloLink}`)
     }
     return (

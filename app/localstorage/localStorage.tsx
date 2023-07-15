@@ -1,3 +1,4 @@
+'use client'
 export const loadState = ()=> {
   try {
     const data = localStorage.getItem('listas');
@@ -12,7 +13,10 @@ export const loadState = ()=> {
 
 export const setState = (newState:any) => {
   try {
-    localStorage.setItem('listas', JSON.stringify(newState));
+    if(newState){
+      localStorage.setItem('listas', JSON.stringify(newState));
+    }
+    return
   } catch (error) {
     return console.log('falha ao salvar Storage')
   }
@@ -20,10 +24,12 @@ export const setState = (newState:any) => {
 
 export const updateState = (index: number) => {
   try {
-    console.log(loadState()[index])
-    return loadState()
+    const state = loadState()
+    state.listas.splice(index, 1)
+    console.log(state)
+    setState(state)
   } catch (error) {
-    
+    console.log('operação não pode ser concluida')
   }
 }
 

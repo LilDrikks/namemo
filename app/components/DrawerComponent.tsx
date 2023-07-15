@@ -70,7 +70,7 @@ export function DrawerExample() {
                   ))}
                 </TabPanel>
                 <TabPanel>
-                  <NovaListaForm />
+                  <NovaListaForm onCloseDrawer={onClose} />
                 </TabPanel>
                 <TabPanel>
                   {data.map((item: any, index: number) => (

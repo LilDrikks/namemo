@@ -1,3 +1,4 @@
+"use client"
 import {
   Modal,
   ModalOverlay,
@@ -10,9 +11,22 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { updateState } from "../localstorage/localStorage";
+import { useRouter } from "next/navigation";
 
-export function ModalComponent(setIndex: number) {
+
+interface ModalComponentProps {
+  setIndex: number;
+}
+
+export const ModalComponent: React.FC<ModalComponentProps> = ({setIndex}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter()
+
+  const handdleDeleteLista = () => {
+    updateState(setIndex)
+    router.refresh()
+    router.push('/')
+  }
   return (
     <>
       <button
@@ -40,7 +54,7 @@ export function ModalComponent(setIndex: number) {
             </Button>
             <Button
               variant="ghost"
-              onClick={updateState(setIndex)}
+              onClick={handdleDeleteLista}
               className="bg-azul text-white hover:bg-verde hover:text-black"
             >
               Sim
