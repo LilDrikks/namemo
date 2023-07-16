@@ -10,21 +10,30 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import { updateState } from "../localstorage/localStorage";
 import { useRouter } from "next/navigation";
+import { updateState } from "../localstorage/localStorage";
+import { useDispatch } from "react-redux";
+import { attLista } from "../store/reducers";
 
 
 interface ModalComponentProps {
+  item: string;
   setIndex: number;
 }
 
-export const ModalComponent: React.FC<ModalComponentProps> = ({setIndex}) => {
+export const ModalComponent: React.FC<ModalComponentProps> = ({setIndex, item}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const router = useRouter()
+  const dispatch = useDispatch()
 
-  const handdleDeleteLista = () => {
-    updateState(setIndex)
-    router.refresh()
+  const router = useRouter()
+  const currentUrl = window.location.href;
+  function handdleDeleteLista() {
+    dispatch(attLista(setIndex))
+    onClose()
+    if(currentUrl === 'http://localhost:3000/'){
+      router.refresh()
+      return
+    }
     router.push('/')
   }
   return (
@@ -41,7 +50,7 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({setIndex}) => {
           <ModalHeader>Você está prestes a deletar essa lista</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <p>Deseja realmente apagar a lista de cards?</p>
+            <p>Deseja realmente apagar a lista: {item}?</p>
           </ModalBody>
 
           <ModalFooter>

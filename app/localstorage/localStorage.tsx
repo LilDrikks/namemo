@@ -1,4 +1,7 @@
 'use client'
+
+import store from "../store";
+
 export const loadState = ()=> {
   try {
     const data = localStorage.getItem('listas');
@@ -24,10 +27,13 @@ export const setState = (newState:any) => {
 
 export const updateState = (index: number) => {
   try {
-    const state = loadState()
-    state.listas.splice(index, 1)
-    console.log(state)
-    setState(state)
+    const currentState = loadState();
+    if(currentState.listas.length) {
+      currentState.listas.splice(index, 1)
+      console.log(currentState.listas)
+      setState(currentState)
+    }
+    
   } catch (error) {
     console.log('operação não pode ser concluida')
   }

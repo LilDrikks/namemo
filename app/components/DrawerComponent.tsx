@@ -17,16 +17,18 @@ import {
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import NovaListaForm from "./AddNovaListaComponent";
 import Link from "next/link";
 import { ModalComponent } from "./ModalComponent";
+import { loadState } from "../localstorage/localStorage";
 
 export function DrawerExample() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef(null);
-  const data = useSelector((state: any) => state.listas);
-
+  const data = loadState()
+  
+  
   return (
     <>
       <Button
@@ -57,14 +59,14 @@ export function DrawerExample() {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  {data.map((item: any, index: number) => (
+                  {data && data.listas.map((item: any, index: number) => (
                     <div className="flex" key={index}>
                       <Link
                         href={`/${item}`}
                         className="text-lg"
                         onClick={onClose}
                       >
-                        {index} - {item}
+                        {item}
                       </Link>
                     </div>
                   ))}
@@ -73,7 +75,7 @@ export function DrawerExample() {
                   <NovaListaForm onCloseDrawer={onClose} />
                 </TabPanel>
                 <TabPanel>
-                  {data.map((item: any, index: number) => (
+                  {data && data.listas.map((item: any, index: number) => (
                     <div className="flex h-full justify-between" key={index}>
                       <div>
                         <Link
@@ -81,11 +83,11 @@ export function DrawerExample() {
                           className="text-lg"
                           onClick={onClose}
                         >
-                          {index} - {item}
+                          {item}
                         </Link>
                       </div>
                       <div>
-                      <ModalComponent setIndex={index} />
+                      <ModalComponent setIndex={index} item={item} />
                       </div>
                     </div>
                   ))}
